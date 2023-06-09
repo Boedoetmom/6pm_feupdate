@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 
+
 const Register = () => {
   // State untuk menyimpan nilai dari dropdown
   const [selectedProjectType, setSelectedProjectType] = useState(null);
@@ -12,6 +13,8 @@ const Register = () => {
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [selectedCompleteness, setSelectedCompleteness] = useState(null);
   const [selectedDataType, setSelectedDataType] = useState(null);
+  const [data, setData] = useState(null);
+
 
   // Fungsi untuk mengirim data ke backend
   const handleSubmit = async () => {
@@ -65,11 +68,13 @@ const Register = () => {
           'Content-Type': 'application/json'
         }
       });
-      
-      console.log(response.data); // Menampilkan respon dari backend
+      setData(response.data);
+      console.log(data);
+      console.log(response.data) // Menampilkan respon dari backend
     } catch (error) {
       console.error(error);
     }
+
   };
   
 
@@ -154,6 +159,8 @@ const Register = () => {
   ];
 
   return (
+
+    
     <div className="container">
       <div className="box">
         <h1 className="title">Project Type</h1>
@@ -262,6 +269,20 @@ const Register = () => {
           </button>
         </div>
       </div>
+      
+      <div className="container" style={{ width: '350px', height: '200px', display: 'flex', flexDirection: 'column' }}>
+  {data && Object.keys(data).map((name) => (
+    <p key={name} className="notification has-text-centered" style={{ margin: '5px', fontWeight: 'bold' }}>
+      {name}: {data[name][0]}
+    </p>
+  ))}
+</div>
+
+
+
+      <div className="container" style={{ marginBottom: '100px' }}>
+      </div>
+
     </div>
   );
 };
